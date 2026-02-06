@@ -1,75 +1,167 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import logo from "../assets/logo1.png";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Globe, UserCircle } from "lucide-react";
+import { useTranslation } from "react-i18next";
+
+const languages = [
+  { code: "en", label: "English" },
+  { code: "hi", label: "हिंदी" },
+  { code: "bn", label: "বাংলা" },
+  { code: "te", label: "తెలుగు" },
+  { code: "mr", label: "मराठी" },
+  { code: "ta", label: "தமிழ்" },
+];
 
 const Header = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
+  const [authOpen, setAuthOpen] = useState(false);
+  const { i18n } = useTranslation();
 
-  const navItems = [
-    { name: "Home", href: "#home" },
-    { name: "Product", href: "#product" },
-    { name: "About Us", href: "#aboutus" },
-    { name: "Contact", href: "#contact" },
-  ];
+  const changeLanguage = (code) => {
+    i18n.changeLanguage(code);
+    localStorage.setItem("lang", code);
+    setLangOpen(false);
+  };
 
   return (
-    <header className="w-full sticky top-0 z-50">
-      {/* FULL WIDTH BAR */}
-      <div className="w-full h-20 sm:h-24 md:h-28 lg:h-32 flex shadow-sm border-b border-[#d2b89e] bg-[#e8d9c0]">
-        {/* LEFT: LOGO + BRAND NAME (Mobile में close & logo बड़ा) */}
-        <div className="flex items-center px-4 sm:px-6 md:px-8 lg:px-10 h-full gap-2 sm:gap-3 md:gap-4">
-          <img
-            src={logo}
-            alt="DhartiAmrit"
-            className="h-[85%] sm:h-[90%] md:h-full w-auto object-contain"
-          />
-          <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-[#5c4033] whitespace-nowrap">
+    <header className="sticky top-0 z-50 bg-[#e8d9c0] border-b border-[#d2b89e]">
+      {/* TOP BAR */}
+      <div className="flex items-center h-16 sm:h-20 px-4 md:px-8">
+        {/* LOGO */}
+        <Link to="/" className="flex items-center gap-2">
+          <img src={logo} alt="DhartiAmrit" className="h-10 sm:h-12" />
+          <span className="font-bold text-lg sm:text-xl text-[#5c4033]">
             DhartiAmrit
-          </h1>
-        </div>
+          </span>
+        </Link>
 
-        {/* CENTER: Empty space (breathing room) */}
         <div className="flex-1" />
 
-        {/* RIGHT: MENU */}
-        <div className="flex items-center px-4 sm:px-6 md:px-8 lg:px-10 h-full">
-          {/* Desktop Menu */}
-          <nav className="hidden md:flex gap-6 lg:gap-10 font-medium text-[#5c4033]">
-            {navItems.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="hover:text-[#8b6f47] transition-colors"
-              >
-                {item.name}
-              </a>
-            ))}
-          </nav>
+        {/* DESKTOP NAV */}
+        <nav className="hidden md:flex items-center gap-6 text-[#5c4033] font-medium">
+          <Link to="/" className="hover:text-[#8b6f47]">
+            Home
+          </Link>
+          <Link to="/product" className="hover:text-[#8b6f47]">
+            Product
+          </Link>
+          <Link to="/services" className="hover:text-[#8b6f47]">
+            Services
+          </Link>
+          <Link to="/about" className="hover:text-[#8b6f47]">
+            About
+          </Link>
 
-          {/* Mobile Hamburger */}
-          <button
-            className="md:hidden text-[#5c4033] p-2"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle menu"
-          >
-            {isOpen ? <X size={32} /> : <Menu size={32} />}
-          </button>
-        </div>
+          {/* 🌐 LANGUAGE (CLICK) */}
+          <div className="relative">
+            <button
+              onClick={() => {
+                setLangOpen(!langOpen);
+                setAuthOpen(false);
+              }}
+              className="p-1"
+            >
+              <Globe size={22} />
+            </button>
+
+            {langOpen && (
+              <div className="absolute right-0 mt-2 w-40 bg-[#f5efe6] border rounded shadow">
+                {languages.map((lang) => (
+                  <button
+                    key={lang.code}
+                    onClick={() => changeLanguage(lang.code)}
+                    className="block w-full text-left px-4 py-2 hover:bg-[#e8d9c0]"
+                  >
+                    {lang.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* 👤 LOGIN / REGISTER (CLICK) */}
+          <div className="relative">
+            <button
+              onClick={() => {
+                setAuthOpen(!authOpen);
+                setLangOpen(false);
+              }}
+              className="p-1"
+            >
+              <UserCircle size={26} />
+            </button>
+
+            {authOpen && (
+              <div className="absolute right-0 mt-2 w-40 bg-[#f5efe6] border rounded shadow">
+                <Link
+                  to="/login"
+                  className="block px-4 py-2 hover:bg-[#e8d9c0]"
+                  onClick={() => setAuthOpen(false)}
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="block px-4 py-2 hover:bg-[#e8d9c0]"
+                  onClick={() => setAuthOpen(false)}
+                >
+                  Register
+                </Link>
+              </div>
+            )}
+          </div>
+        </nav>
+
+        {/* MOBILE MENU BUTTON */}
+        <button
+          className="md:hidden"
+          onClick={() => setMobileOpen(!mobileOpen)}
+        >
+          {mobileOpen ? <X /> : <Menu />}
+        </button>
       </div>
 
-      {/* MOBILE DROPDOWN MENU */}
-      {isOpen && (
-        <div className="md:hidden bg-[#e8d9c0] border-t border-[#d2b89e] px-6 py-6 space-y-5 shadow-md">
-          {navItems.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              className="block text-xl font-medium text-[#5c4033] hover:text-[#8b6f47]"
-              onClick={() => setIsOpen(false)}
-            >
-              {item.name}
-            </a>
-          ))}
+      {/* MOBILE MENU */}
+      {mobileOpen && (
+        <div className="md:hidden bg-[#e8d9c0] border-t border-[#d2b89e] px-6 py-6 space-y-4">
+          <Link to="/" onClick={() => setMobileOpen(false)}>
+            Home
+          </Link>
+          <Link to="/product" onClick={() => setMobileOpen(false)}>
+            Product
+          </Link>
+          <Link to="/services" onClick={() => setMobileOpen(false)}>
+            Services
+          </Link>
+          <Link to="/about" onClick={() => setMobileOpen(false)}>
+            About
+          </Link>
+
+          {/* LANGUAGE */}
+          <div>
+            <p className="font-medium mb-2">Language</p>
+            <div className="flex flex-wrap gap-2">
+              {languages.map((lang) => (
+                <button
+                  key={lang.code}
+                  onClick={() => changeLanguage(lang.code)}
+                  className="px-3 py-1 border rounded text-sm"
+                >
+                  {lang.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <Link
+            to="/login"
+            className="block text-center bg-[#5c4033] text-white py-2 rounded"
+            onClick={() => setMobileOpen(false)}
+          >
+            Login / Register
+          </Link>
         </div>
       )}
     </header>
