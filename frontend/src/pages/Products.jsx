@@ -206,9 +206,12 @@ const ProductsPage = () => {
                         ⭐ {product.rating}
                       </span>
                     </div>
-                    <button className="w-full bg-gradient-to-r from-teal-600 to-cyan-600 text-white py-2 rounded-lg hover:from-teal-700 hover:to-cyan-700 transition-all duration-300 font-medium hover:shadow-md hover:scale-105">
-                      Add to Cart
-                    </button>
+                    <div className="flex gap-2">
+                      <button onClick={() => window.location.href = `/product/${product.id}`} className="flex-1 bg-teal-600 hover:bg-teal-700 text-white py-2 rounded-lg font-medium transition-all">View</button>
+                      <button className="flex-1 bg-gradient-to-r from-teal-600 to-cyan-600 text-white py-2 rounded-lg hover:from-teal-700 hover:to-cyan-700 transition-all duration-300 font-medium hover:shadow-md hover:scale-105">
+                        Add to Cart
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}

@@ -46,16 +46,29 @@ const Register = () => {
     state: "",
     role: "buyer",
     otp: "",
+    adminCode: "",
   });
+  const [adminCodeError, setAdminCodeError] = useState("");
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validate passwords match
     if (form.password !== form.confirmPassword) {
       alert('Passwords do not match');
       return;
+    }
+
+    // Validate admin code if role is admin
+    if (form.role === "admin") {
+      if (!form.adminCode || form.adminCode.trim() === "") {
+        setAdminCodeError("Admin authorization code is required");
+        return;
+      }
+      setAdminCodeError("");
     }
 
     try {
@@ -68,6 +81,7 @@ const Register = () => {
         address: {
           state: form.state,
         },
+        adminCode: form.role === "admin" ? form.adminCode : undefined,
       });
       alert('Registered successfully');
       // Reset form
@@ -80,9 +94,15 @@ const Register = () => {
         state: "",
         role: "buyer",
         otp: "",
+        adminCode: "",
       });
     } catch (err) {
-      alert(err.response?.data?.msg || err.response?.data?.message || err.message || 'Registration failed');
+      const errorMsg = err.response?.data?.msg || err.response?.data?.message || err.message || 'Registration failed';
+      alert(errorMsg);
+      // Show admin code specific error
+      if (form.role === "admin" && errorMsg.includes("admin")) {
+        setAdminCodeError(errorMsg);
+      }
     }
   };
 
@@ -239,12 +259,12 @@ const Register = () => {
         {/* SOCIAL AUTH */}
         <div className="mt-6 space-y-3">
           <button className="w-full flex items-center justify-center gap-2 border py-2 rounded hover:bg-gray-50">
-            <img src="/src/assets/google.jpeg" className="w-5 h-5" />
+            <img src="/src/assets/google.png" className="w-5 h-5" />
             Register with Google
           </button>
 
           <button className="w-full flex items-center justify-center gap-2 border py-2 rounded hover:bg-gray-50">
-            <img src="/src/assets/AadharCard.png" className="w-5 h-5" />
+            <img src="/src/assets/aadhar.png" className="w-5 h-5" />
             Register with Aadhaar
           </button>
         </div>

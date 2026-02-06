@@ -27,6 +27,7 @@ const Dashboard = () => {
   if (!isAuthenticated) {
     return (
       <div className="p-8">
+        <img src="https://media.istockphoto.com/id/1092520698/photo/indian-farmer-at-onion-field.jpg?s=612x612&w=0&k=20&c=gvu-DzA17EyVSNzvdf7L3R8q0iIvLapG15ktOimqXqU=" alt="Logo" className="mb-4 h-12" />
         <h2>Please log in to view dashboard</h2>
       </div>
     );

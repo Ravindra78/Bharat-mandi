@@ -11,7 +11,7 @@ const Footer = () => {
           <div className="transform hover:scale-105 transition-transform duration-300">
             <h3 className="font-bold text-white text-lg mb-4 flex items-center gap-2">
               <div className="w-8 h-8 bg-gradient-to-br from-teal-400 to-cyan-400 rounded-lg flex items-center justify-center text-sm font-bold">
-                BM
+                RD
               </div>
               Bharat Mandi
             </h3>
@@ -138,7 +138,7 @@ const Footer = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center text-sm text-slate-400 font-light">
             <p>&copy; 2026 Bharat Mandi. All rights reserved.</p>
-            <p className="mt-4 md:mt-0">Made with love for Indian Farmers</p>
+            <p className="mt-4 md:mt-0">Made with ❤️ for Indian Farmers</p>
           </div>
         </div>
       </div>

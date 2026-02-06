@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { BarChart3, Truck, Users, Shield, TrendingUp, ArrowRight, DollarSign, Leaf } from "lucide-react";
+import { BarChart3, Truck, Users, Shield, TrendingUp, ArrowRight } from "lucide-react";
 import { useAuth } from "../hooks/useAuth";
 
 const Home = () => {
@@ -88,9 +88,9 @@ const Home = () => {
               </div>
               <div className="text-center">
                 <div className="w-40 h-40 mx-auto rounded-2xl overflow-hidden">
-                  <img src="https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=400&h=400&fit=crop" alt="Farming" className="w-full h-full object-cover" />
+                
                 </div>
-                <p className="text-teal-300 font-light mt-4">Empowering Indian Farmers</p>
+              
               </div>
             </div>
           </div>
@@ -101,19 +101,13 @@ const Home = () => {
       <section className="bg-gradient-to-r from-teal-600 to-cyan-600 text-white py-8">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            {farmerStats.map((stat, idx) => {
-              const IconMap = { Users, DollarSign, Leaf };
-              const IconComponent = IconMap[stat.icon] || Users;
-              return (
-                <div key={idx} className="transform hover:scale-110 transition-transform duration-300">
-                  <div className="mb-2">
-                    <IconComponent size={40} className="text-teal-300" />
-                  </div>
-                  <p className="text-2xl font-bold">{stat.value}</p>
-                  <p className="text-teal-100 text-sm font-light">{stat.label}</p>
-                </div>
-              );
-            })}
+            {farmerStats.map((stat, idx) => (
+              <div key={idx} className="transform hover:scale-110 transition-transform duration-300">
+                <div className="text-4xl mb-2">{stat.icon}</div>
+                <p className="text-2xl font-bold">{stat.value}</p>
+                <p className="text-teal-100 text-sm font-light">{stat.label}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -158,7 +152,7 @@ const Home = () => {
                 </div>
 
                 <p className="text-xs text-slate-600 font-light mb-3">Seller: {crop.farmer}</p>
-                <button className="w-full bg-teal-500 hover:bg-teal-600 text-white py-2 rounded-lg transition-all duration-300 hover:scale-105 font-semibold text-sm">
+                <button onClick={() => navigate(`/product/${crop.id}`)} className="w-full bg-teal-500 hover:bg-teal-600 text-white py-2 rounded-lg transition-all duration-300 hover:scale-105 font-semibold text-sm">
                   View Details
                 </button>
               </div>
@@ -267,6 +261,8 @@ const Home = () => {
               Start Shopping
             </button>
             <button
+
+            
               onClick={() => navigate("/services")}
               className="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold hover:bg-white/20 transition-all duration-300"
             >
