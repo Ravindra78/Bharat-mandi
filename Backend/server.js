@@ -13,7 +13,7 @@ app.get('/', (req, res) => {
 	res.json({ message: 'Bharat Mandi' });
 });
 
-app.get('/health', (req, res) => res.send('OK'));
+app.get('/health', (req, res) => res.send('done❤️'));
 
 app.post('/echo', (req, res) => {
 	res.json({ youSent: req.body });
