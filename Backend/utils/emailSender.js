@@ -1,12 +1,16 @@
 const nodemailer = require('nodemailer');
 const logger = require('./logger');
 
+// Support either EMAIL_USER/EMAIL_PASS or GMAIL_EMAIL/GMAIL_APP_PASSWORD
+const mailUser = (process.env.EMAIL_USER || process.env.GMAIL_EMAIL || '').trim();
+const mailPass = (process.env.EMAIL_PASS || process.env.GMAIL_APP_PASSWORD || '').replace(/\s+/g, '').trim();
+
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
+    service: 'gmail',
+    auth: {
+        user: mailUser,
+        pass: mailPass,
+    },
 });
 
 exports.sendEmail = async (to, subject, html, text = null) => {
@@ -16,7 +20,7 @@ exports.sendEmail = async (to, subject, html, text = null) => {
         }
 
         const mailOptions = {
-            from: process.env.EMAIL_USER,
+            from: mailUser || process.env.GMAIL_EMAIL || 'no-reply@bharat-mandi.com',
             to,
             subject,
             ...(html && { html }),
