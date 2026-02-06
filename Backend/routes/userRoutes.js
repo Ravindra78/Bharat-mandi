@@ -1,7 +1,6 @@
 const express = require('express');
 const userController = require('../controllers/userController');
 const auth = require('../middleware/auth');
-
 const router = express.Router();
 
 // Public routes
@@ -14,6 +13,7 @@ router.post('/otp/send-sms', userController.sendOtpToPhone);
 router.post('/otp/verify', userController.verifyOtp);
 router.post('/otp/validate', userController.validateOtp);
 router.get('/otp/status/:email', userController.checkOtpStatus);
+
 
 // Protected routes
 router.get('/profile', auth, userController.getProfile);
