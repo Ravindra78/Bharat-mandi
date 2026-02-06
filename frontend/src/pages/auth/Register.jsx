@@ -38,7 +38,10 @@ const indianStates = [
 const Register = () => {
   const [form, setForm] = useState({
     name: "",
-    contact: "", // mobile or email
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
     state: "",
     otp: "",
   });
@@ -46,13 +49,58 @@ const Register = () => {
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e) => {
+  const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("REGISTER DATA:", form);
+    if (form.password !== form.confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+
+    try {
+      const resp = await fetch(`${API_BASE}/api/users/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          password: form.password,
+          phone: form.phone,
+          address: {
+            state: form.state,
+          },
+        }),
+      });
+
+      const data = await resp.json();
+      if (!resp.ok) throw new Error(data.msg || data.message || 'Registration failed');
+      alert('Registered successfully');
+    } catch (err) {
+      alert(err.message);
+    }
   };
 
-  const handleSendOtp = () => {
-    alert("OTP sent (demo)");
+  const handleSendOtp = async () => {
+    try {
+      if (!form.email && !form.phone) return alert('Enter email or phone to receive OTP');
+
+      const isEmail = !!(form.email && form.email.includes('@'));
+      const url = isEmail ? `${API_BASE}/api/users/otp/send-email` : `${API_BASE}/api/users/otp/send-sms`;
+      const body = isEmail ? { email: form.email, purpose: 'registration' } : { phone: form.phone, purpose: 'registration' };
+
+      const resp = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+
+      const data = await resp.json();
+      if (!resp.ok) throw new Error(data.msg || data.message || 'Failed to send OTP');
+      alert(data.message || 'OTP sent');
+    } catch (err) {
+      alert(err.message);
+    }
   };
 
   return (
@@ -75,11 +123,38 @@ const Register = () => {
 
           {/* MOBILE / EMAIL */}
           <input
-            name="contact"
-            placeholder="Mobile Number or Email"
-            value={form.contact}
+            name="email"
+            placeholder="Email"
+            value={form.email}
             onChange={handleChange}
             className="w-full border px-3 py-2 rounded"
+          />
+
+          <input
+            name="phone"
+            placeholder="Mobile Number"
+            value={form.phone}
+            onChange={handleChange}
+            className="w-full border px-3 py-2 rounded mt-2"
+          />
+
+          <input
+            name="password"
+            placeholder="Password"
+            type="password"
+            value={form.password}
+            onChange={handleChange}
+            className="w-full border px-3 py-2 rounded mt-2"
+            required
+          />
+
+          <input
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            type="password"
+            value={form.confirmPassword}
+            onChange={handleChange}
+            className="w-full border px-3 py-2 rounded mt-2"
             required
           />
 
@@ -107,7 +182,6 @@ const Register = () => {
               value={form.otp}
               onChange={handleChange}
               className="flex-1 border px-3 py-2 rounded"
-              required
             />
             <button
               type="button"

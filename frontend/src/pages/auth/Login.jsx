@@ -4,10 +4,24 @@ import { Link } from "react-router-dom";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("LOGIN:", email, password);
+    try {
+      const resp = await fetch(`${API_BASE}/api/users/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await resp.json();
+      if (!resp.ok) throw new Error(data.msg || data.message || 'Login failed');
+      // Save token and basic user info
+      if (data.token) localStorage.setItem('token', data.token);
+      alert('Login successful');
+    } catch (err) {
+      alert(err.message);
+    }
   };
 
   return (
