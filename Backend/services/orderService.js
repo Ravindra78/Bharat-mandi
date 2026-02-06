@@ -4,8 +4,7 @@ const logger = require('../utils/logger');
 
 exports.createOrder = async (orderData) => {
     try {
-        // Validate products exist and have sufficient quantity
-        for (let item of orderData.items) {
+               for (let item of orderData.items) {
             const product = await Product.findById(item.productId);
             if (!product) {
                 const error = new Error(`Product ${item.productId} not found`);
