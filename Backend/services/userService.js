@@ -6,7 +6,7 @@ const otpHelper = require('../utils/otpHelper');
 
 exports.registerUser = async (userData) => {
     try {
-        const { name, email, password, phone } = userData;
+        const { name, email, password, phone, role = 'buyer', address } = userData;
 
         // Check if user exists
         const existingUser = await User.findOne({ email });
@@ -25,11 +25,13 @@ exports.registerUser = async (userData) => {
             email,
             password: hashedPassword,
             phone,
+            role,
+            address,
         });
 
         await user.save();
-        logger.info(`User registered: ${email}`);
-        return { id: user._id, name, email, phone };
+        logger.info(`User registered: ${email} with role: ${role}`);
+        return { id: user._id, name, email, phone, role };
     } catch (err) {
         logger.error(`Registration error: ${err.message}`);
         throw err;
@@ -53,13 +55,18 @@ exports.loginUser = async (email, password) => {
             throw error;
         }
 
-        // Generate JWT
-        const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, {
-            expiresIn: '7d',
-        });
+        // Generate JWT with role included
+        const token = jwt.sign(
+            { id: user._id, email: user.email, role: user.role },
+            process.env.JWT_SECRET,
+            { expiresIn: '7d' }
+        );
 
         logger.info(`User logged in: ${email}`);
-        return { token, user: { id: user._id, name: user.name, email, phone: user.phone } };
+        return {
+            token,
+            user: { id: user._id, name: user.name, email, phone: user.phone, role: user.role }
+        };
     } catch (err) {
         logger.error(`Login error: ${err.message}`);
         throw err;

@@ -31,6 +31,7 @@ api.use('/users', require('./routes/userRoutes'));
 api.use('/products', require('./routes/productRoutes'));
 api.use('/orders', require('./routes/orderRoutes'));
 api.use('/payments', require('./routes/paymentRoutes'));
+api.use('/admin', require('./routes/adminRoutes'));
 
 app.use('/api', api);
 
