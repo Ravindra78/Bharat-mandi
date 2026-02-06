@@ -1,7 +1,15 @@
-module.exports = {
-  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+export default {
+  content: ["./index.html", "./src/**/*.{js,jsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        poppins: ["Poppins", "sans-serif"],
+      },
+      colors: {
+        primary: "#4CAF50", // green
+        secondary: "#F4C430", // yellow
+      },
+    },
   },
-  plugins: [require('@tailwindcss/forms')],
+  plugins: [],
 };
