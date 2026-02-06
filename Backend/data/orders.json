@@ -1,0 +1,38 @@
+[
+  {
+    "_id": {"$oid": "64f1a1b2c3d4e5f601234573"},
+    "buyerId": {"$oid": "64f1a1b2c3d4e5f601234567"},
+    "items": [
+      {"productId": {"$oid":"64f1a1b2c3d4e5f601234570"}, "quantity": 2, "price": 350},
+      {"productId": {"$oid":"64f1a1b2c3d4e5f601234571"}, "quantity": 5, "price": 30}
+    ],
+    "totalAmount": 2*350 + 5*30,
+    "status": "pending",
+    "shippingAddress": {
+      "street": "12 MG Road",
+      "city": "Delhi",
+      "state": "Delhi",
+      "pincode": "110001"
+    },
+    "paymentStatus": "pending",
+    "createdAt": {"$date": "2025-12-02T10:00:00Z"}
+  },
+  {
+    "_id": {"$oid": "64f1a1b2c3d4e5f601234574"},
+    "buyerId": {"$oid": "64f1a1b2c3d4e5f601234567"},
+    "items": [
+      {"productId": {"$oid":"64f1a1b2c3d4e5f601234572"}, "quantity": 1, "price": 180}
+    ],
+    "totalAmount": 180,
+    "status": "confirmed",
+    "shippingAddress": {
+      "street": "Flat 3B, Green Apartments",
+      "city": "Delhi",
+      "state": "Delhi",
+      "pincode": "110002"
+    },
+    "paymentStatus": "completed",
+    "paymentId": {"$oid": "64f1a1b2c3d4e5f601234580"},
+    "createdAt": {"$date": "2025-12-01T14:45:00Z"}
+  }
+]
