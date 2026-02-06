@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { userAPI, otpAPI } from "../../services/api";
 
 const indianStates = [
   "Andhra Pradesh",
@@ -43,13 +44,12 @@ const Register = () => {
     password: "",
     confirmPassword: "",
     state: "",
+    role: "buyer",
     otp: "",
   });
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
-
-  const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -59,25 +59,30 @@ const Register = () => {
     }
 
     try {
-      const resp = await fetch(`${API_BASE}/api/users/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: form.name,
-          email: form.email,
-          password: form.password,
-          phone: form.phone,
-          address: {
-            state: form.state,
-          },
-        }),
+      await userAPI.register({
+        name: form.name,
+        email: form.email,
+        password: form.password,
+        phone: form.phone,
+        role: form.role,
+        address: {
+          state: form.state,
+        },
       });
-
-      const data = await resp.json();
-      if (!resp.ok) throw new Error(data.msg || data.message || 'Registration failed');
       alert('Registered successfully');
+      // Reset form
+      setForm({
+        name: "",
+        email: "",
+        phone: "",
+        password: "",
+        confirmPassword: "",
+        state: "",
+        role: "buyer",
+        otp: "",
+      });
     } catch (err) {
-      alert(err.message);
+      alert(err.response?.data?.msg || err.response?.data?.message || err.message || 'Registration failed');
     }
   };
 
@@ -86,20 +91,13 @@ const Register = () => {
       if (!form.email && !form.phone) return alert('Enter email or phone to receive OTP');
 
       const isEmail = !!(form.email && form.email.includes('@'));
-      const url = isEmail ? `${API_BASE}/api/users/otp/send-email` : `${API_BASE}/api/users/otp/send-sms`;
-      const body = isEmail ? { email: form.email, purpose: 'registration' } : { phone: form.phone, purpose: 'registration' };
+      const response = isEmail
+        ? await otpAPI.sendEmail(form.email, 'registration')
+        : await otpAPI.sendSMS(form.phone, 'registration');
 
-      const resp = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      });
-
-      const data = await resp.json();
-      if (!resp.ok) throw new Error(data.msg || data.message || 'Failed to send OTP');
-      alert(data.message || 'OTP sent');
+      alert(response.data.message || 'OTP sent successfully');
     } catch (err) {
-      alert(err.message);
+      alert(err.response?.data?.msg || err.response?.data?.message || err.message || 'Failed to send OTP');
     }
   };
 
@@ -157,6 +155,46 @@ const Register = () => {
             className="w-full border px-3 py-2 rounded mt-2"
             required
           />
+
+          {/* ROLE SELECTION */}
+          <div className="mt-4">
+            <label className="block text-sm font-semibold text-slate-700 mb-3">Select Your Role:</label>
+            <div className="space-y-3">
+              <label className="flex items-center cursor-pointer p-3 border-2 border-slate-200 rounded-lg hover:border-teal-500 transition-colors" style={{borderColor: form.role === 'buyer' ? '#14b8a6' : ''}}>
+                <input
+                  type="radio"
+                  name="role"
+                  value="buyer"
+                  checked={form.role === "buyer"}
+                  onChange={handleChange}
+                  className="w-4 h-4"
+                />
+                <span className="ml-3 font-medium text-slate-900">🛒 Buyer - Purchase agricultural products</span>
+              </label>
+              <label className="flex items-center cursor-pointer p-3 border-2 border-slate-200 rounded-lg hover:border-orange-500 transition-colors" style={{borderColor: form.role === 'seller' ? '#ea580c' : ''}}>
+                <input
+                  type="radio"
+                  name="role"
+                  value="seller"
+                  checked={form.role === "seller"}
+                  onChange={handleChange}
+                  className="w-4 h-4"
+                />
+                <span className="ml-3 font-medium text-slate-900">Seller - Sell agricultural products</span>
+              </label>
+              <label className="flex items-center cursor-pointer p-3 border-2 border-slate-200 rounded-lg hover:border-red-500 transition-colors" style={{borderColor: form.role === 'admin' ? '#dc2626' : ''}}>
+                <input
+                  type="radio"
+                  name="role"
+                  value="admin"
+                  checked={form.role === "admin"}
+                  onChange={handleChange}
+                  className="w-4 h-4"
+                />
+                <span className="ml-3 font-medium text-slate-900">Admin - Manage platform</span>
+              </label>
+            </div>
+          </div>
 
           {/* STATE */}
           <select

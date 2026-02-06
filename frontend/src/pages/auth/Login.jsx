@@ -1,26 +1,27 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { userAPI } from "../../services/api";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      const resp = await fetch(`${API_BASE}/api/users/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-      const data = await resp.json();
-      if (!resp.ok) throw new Error(data.msg || data.message || 'Login failed');
-      // Save token and basic user info
-      if (data.token) localStorage.setItem('token', data.token);
-      alert('Login successful');
+      const response = await userAPI.login(email, password);
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+        alert('Login successful');
+        navigate('/'); // Redirect to home
+      }
     } catch (err) {
-      alert(err.message);
+      alert(err.response?.data?.msg || err.response?.data?.message || err.message || 'Login failed');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -64,9 +65,10 @@ const Login = () => {
 
             <button
               type="submit"
-              className="w-full bg-green-700 text-white py-2 rounded hover:bg-green-800"
+              disabled={loading}
+              className="w-full bg-green-700 text-white py-2 rounded hover:bg-green-800 disabled:bg-gray-400"
             >
-              Login
+              {loading ? 'Logging in...' : 'Login'}
             </button>
           </form>
 
@@ -93,7 +95,7 @@ const Login = () => {
           <div className="absolute inset-0 bg-black/40" />
           <div className="relative z-10 p-8 text-white text-center flex flex-col justify-center h-full">
             <h3 className="text-2xl font-bold mb-4">
-              Welcome to Kishan Setu 🌾
+              Welcome to Bharat Mandi
             </h3>
             <p>One platform for farmers, mandi prices, schemes and loans.</p>
           </div>
