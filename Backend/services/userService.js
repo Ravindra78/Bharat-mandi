@@ -6,7 +6,7 @@ const otpHelper = require('../utils/otpHelper');
 
 exports.registerUser = async (userData) => {
     try {
-        const { name, email, password, phone, role = 'buyer', address } = userData;
+        const { name, email, password, phone, role = 'buyer', address, adminCode } = userData;
 
         // Check if user exists
         const existingUser = await User.findOne({ email });
@@ -14,6 +14,21 @@ exports.registerUser = async (userData) => {
             const error = new Error('User already exists');
             error.statusCode = 409;
             throw error;
+        }
+
+        // Validate admin registration
+        if (role === 'admin') {
+            const validAdminCode = process.env.ADMIN_SECRET_CODE;
+            if (!validAdminCode) {
+                const error = new Error('Admin registration is not currently available');
+                error.statusCode = 403;
+                throw error;
+            }
+            if (!adminCode || adminCode !== validAdminCode) {
+                const error = new Error('Invalid admin authorization code');
+                error.statusCode = 403;
+                throw error;
+            }
         }
 
         // Hash password
