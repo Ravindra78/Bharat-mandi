@@ -47,6 +47,16 @@ export const userAPI = {
   
   updateProfile: (profileData) =>
     apiClient.put('/users/profile', profileData),
+
+  // Firebase Authentication APIs
+  firebaseSignup: (firebaseData) =>
+    apiClient.post('/users/firebase-signup', firebaseData),
+
+  firebaseLogin: (firebaseData) =>
+    apiClient.post('/users/firebase-login', firebaseData),
+
+  firebaseLoginAuto: (firebaseData) =>
+    apiClient.post('/users/firebase-auto-login', firebaseData),
 };
 
 // OTP APIs

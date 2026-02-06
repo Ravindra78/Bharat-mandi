@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { userAPI, otpAPI } from "../../services/api";
+import { signUpWithGoogle } from "../../services/firebaseAuth";
 
 const indianStates = [
   "Andhra Pradesh",
@@ -37,6 +38,7 @@ const indianStates = [
 ];
 
 const Register = () => {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -49,6 +51,7 @@ const Register = () => {
     adminCode: "",
   });
   const [adminCodeError, setAdminCodeError] = useState("");
+  const [googleLoading, setGoogleLoading] = useState(false);
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -118,6 +121,20 @@ const Register = () => {
       alert(response.data.message || 'OTP sent successfully');
     } catch (err) {
       alert(err.response?.data?.msg || err.response?.data?.message || err.message || 'Failed to send OTP');
+    }
+  };
+
+  const handleGoogleSignUp = async () => {
+    try {
+      setGoogleLoading(true);
+      const result = await signUpWithGoogle();
+      alert(`Welcome ${result.userData.name}! Registered successfully with Google`);
+      navigate('/');
+    } catch (error) {
+      const errorMsg = error.response?.data?.msg || error.message || 'Google signup failed';
+      alert(errorMsg);
+    } finally {
+      setGoogleLoading(false);
     }
   };
 
@@ -258,13 +275,18 @@ const Register = () => {
 
         {/* SOCIAL AUTH */}
         <div className="mt-6 space-y-3">
-          <button className="w-full flex items-center justify-center gap-2 border py-2 rounded hover:bg-gray-50">
-            <img src="/src/assets/google.png" className="w-5 h-5" />
-            Register with Google
+          <button
+            type="button"
+            onClick={handleGoogleSignUp}
+            disabled={googleLoading}
+            className="w-full flex items-center justify-center gap-2 border py-2 rounded hover:bg-gray-50 disabled:bg-gray-200"
+          >
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth_provider_google.svg" className="w-5 h-5" alt="Google" />
+            {googleLoading ? 'Signing up...' : 'Sign up with Google'}
           </button>
 
           <button className="w-full flex items-center justify-center gap-2 border py-2 rounded hover:bg-gray-50">
-            <img src="/src/assets/aadhar.png" className="w-5 h-5" />
+            <img src="/src/assets/aadhar.png" className="w-5 h-5" alt="Aadhaar" />
             Register with Aadhaar
           </button>
         </div>

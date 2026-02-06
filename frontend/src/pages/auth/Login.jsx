@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { userAPI } from "../../services/api";
+import { loginWithGoogle } from "../../services/firebaseAuth";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -22,6 +24,20 @@ const Login = () => {
       alert(err.response?.data?.msg || err.response?.data?.message || err.message || 'Login failed');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      setGoogleLoading(true);
+      const result = await loginWithGoogle();
+      alert(`Welcome ${result.userData.name}!`);
+      navigate('/');
+    } catch (error) {
+      const errorMsg = error.response?.data?.msg || error.message || 'Google login failed';
+      alert(errorMsg);
+    } finally {
+      setGoogleLoading(false);
     }
   };
 
@@ -74,9 +90,14 @@ const Login = () => {
 
           {/* SOCIAL */}
           <div className="mt-6 space-y-3">
-            <button className="w-full border py-2 rounded flex justify-center gap-2">
-              <img src="/src/assets/google.jpeg" className="w-5" />
-              Login with Google
+            <button
+              type="button"
+              onClick={handleGoogleLogin}
+              disabled={googleLoading}
+              className="w-full border py-2 rounded flex justify-center gap-2 hover:bg-gray-50 disabled:bg-gray-200"
+            >
+              <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth_provider_google.svg" className="w-5" alt="Google" />
+              {googleLoading ? 'Logging in...' : 'Login with Google'}
             </button>
 
             <button className="w-full border py-2 rounded flex justify-center gap-2">

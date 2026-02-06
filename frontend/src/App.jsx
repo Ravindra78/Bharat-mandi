@@ -1,7 +1,9 @@
 import { Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { AuthProvider } from "./context/AuthContext";
+import { verifyFirebaseAuth } from "./services/firebaseAuth";
 
 import Home from "./pages/Home";
 import Products from "./pages/Products";
@@ -22,6 +24,22 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 
 function App() {
+  useEffect(() => {
+    // Auto-login with Firebase if user has a session
+    const checkFirebaseAuth = async () => {
+      try {
+        const result = await verifyFirebaseAuth();
+        if (result) {
+          console.log("Auto-login successful:", result.user.name);
+        }
+      } catch (error) {
+        console.log("No active Firebase session");
+      }
+    };
+
+    checkFirebaseAuth();
+  }, []);
+
   return (
     <AuthProvider>
       <Navbar />
