@@ -17,18 +17,113 @@ const ProductsPage = () => {
   ];
 
   const allProducts = [
-    { id: 1, name: "Fresh Tomatoes", price: 40, category: "vegetables", rating: 4.8, image: "https://images.unsplash.com/photo-1592534106566-74f440642117?w=200&h=200&fit=crop" },
-    { id: 2, name: "Organic Wheat", price: 50, category: "grains", rating: 4.9, image: "https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=200&h=200&fit=crop" },
-    { id: 3, name: "Farm Fresh Milk", price: 45, category: "dairy", rating: 4.7, image: "https://images.unsplash.com/photo-1452895917063-39bfab34e5a4?w=200&h=200&fit=crop" },
-    { id: 4, name: "Spiced Honey", price: 300, category: "spices", rating: 4.9, image: "https://images.unsplash.com/photo-1587822891440-90869b4a7922?w=200&h=200&fit=crop" },
-    { id: 5, name: "Green Apples", price: 60, category: "fruits", rating: 4.6, image: "https://images.unsplash.com/photo-1560806e614371-d89f5b7fbed7?w=200&h=200&fit=crop" },
-    { id: 6, name: "Cucumber", price: 30, category: "vegetables", rating: 4.5, image: "https://images.unsplash.com/photo-1566028588640-f7f75c57cff5?w=200&h=200&fit=crop" },
-    { id: 7, name: "Organic Rice", price: 45, category: "grains", rating: 4.8, image: "https://images.unsplash.com/photo-1586080876281-4d62c4435fc0?w=200&h=200&fit=crop" },
-    { id: 8, name: "Fresh Banana", price: 50, category: "fruits", rating: 4.6, image: "https://images.unsplash.com/photo-1587822891440-90869b4a7922?w=200&h=200&fit=crop" },
-    { id: 9, name: "Chilli Powder", price: 150, category: "spices", rating: 4.9, image: "https://images.unsplash.com/photo-1596040306935-0e4f85d7da4f?w=200&h=200&fit=crop" },
-    { id: 10, name: "Carrot", price: 35, category: "vegetables", rating: 4.7, image: "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=200&h=200&fit=crop" },
-    { id: 11, name: "Orange Juice", price: 80, category: "fruits", rating: 4.6, image: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=200&h=200&fit=crop" },
-    { id: 12, name: "Turmeric", price: 180, category: "spices", rating: 4.8, image: "https://images.unsplash.com/photo-1596040306935-0e4f85d7da4f?w=200&h=200&fit=crop" },
+    {
+      id: 1,
+      name: "Fresh Tomatoes",
+      price: 40,
+      category: "vegetables",
+      rating: 4.8,
+      image:
+        "https://media.istockphoto.com/id/140453734/photo/fresh-tomatoes.jpg?s=612x612&w=0&k=20&c=b6XySPuRKF6opBf0bexh9AhkWck-c7TaoJvRdVNBgT0=",
+    },
+    {
+      id: 2,
+      name: "Organic Wheat",
+      price: 50,
+      category: "grains",
+      rating: 4.9,
+      image:
+        "https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=200&h=200&fit=crop",
+    },
+    {
+      id: 3,
+      name: "Farm Fresh Milk",
+      price: 45,
+      category: "dairy",
+      rating: 4.7,
+      image:
+        "https://dairy.anantkrushna.com/wp-content/uploads/2025/06/farm-fresh-cow-milk-in-nigdi-1024x725.jpg",
+    },
+    {
+      id: 4,
+      name: "Spiced Honey",
+      price: 300,
+      category: "spices",
+      rating: 4.9,
+      image:
+        "https://images.unsplash.com/photo-1587822891440-90869b4a7922?w=200&h=200&fit=crop",
+    },
+    {
+      id: 5,
+      name: "Green Apples",
+      price: 60,
+      category: "fruits",
+      rating: 4.6,
+      image:
+        "https://cdn.dotpe.in/longtail/item_thumbnails/6940477/Vo2fYH3w-800-800.webp",
+    },
+    {
+      id: 6,
+      name: "Cucumber",
+      price: 30,
+      category: "vegetables",
+      rating: 4.5,
+      image:
+        "https://prabhaorganics.com/cdn/shop/files/Untitled-design-2022-12-19T160139.535.jpg?v=1708605758",
+    },
+    {
+      id: 7,
+      name: "Organic Rice",
+      price: 45,
+      category: "grains",
+      rating: 4.8,
+      image:
+        "https://svastyaorganicfarms.com/cdn/shop/files/organic-thooyamalli-rice-single-polish-692073.jpg?v=1720965602",
+    },
+    {
+      id: 8,
+      name: "Fresh Banana",
+      price: 50,
+      category: "fruits",
+      rating: 4.6,
+      image: "https://im.pluckk.in/unsafe/3750x0/uploads/35228-138.png",
+    },
+    {
+      id: 9,
+      name: "Chilli Powder",
+      price: 150,
+      category: "spices",
+      rating: 4.9,
+      image:
+        "https://images.unsplash.com/photo-1596040306935-0e4f85d7da4f?w=200&h=200&fit=crop",
+    },
+    {
+      id: 10,
+      name: "Carrot",
+      price: 35,
+      category: "vegetables",
+      rating: 4.7,
+      image:
+        "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=200&h=200&fit=crop",
+    },
+    {
+      id: 11,
+      name: "Orange Juice",
+      price: 80,
+      category: "fruits",
+      rating: 4.6,
+      image:
+        "https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=200&h=200&fit=crop",
+    },
+    {
+      id: 12,
+      name: "Turmeric",
+      price: 180,
+      category: "spices",
+      rating: 4.8,
+      image:
+        "https://images.unsplash.com/photo-1596040306935-0e4f85d7da4f?w=200&h=200&fit=crop",
+    },
   ];
 
   const getFilteredProducts = () => {
@@ -40,7 +135,9 @@ const ProductsPage = () => {
     }
 
     // Filter by price range
-    filtered = filtered.filter((p) => p.price >= priceRange[0] && p.price <= priceRange[1]);
+    filtered = filtered.filter(
+      (p) => p.price >= priceRange[0] && p.price <= priceRange[1],
+    );
 
     // Sort
     if (sortBy === "price-low") {
@@ -69,7 +166,9 @@ const ProductsPage = () => {
           <div className="hidden lg:block w-64">
             <div className="bg-white border border-slate-200 p-6 rounded-2xl shadow-md sticky top-20">
               <div className="flex justify-between items-center mb-6">
-                <h3 className="font-semibold text-lg text-slate-900">Filters</h3>
+                <h3 className="font-semibold text-lg text-slate-900">
+                  Filters
+                </h3>
                 <button
                   onClick={() => {
                     setSelectedCategory("all");
@@ -83,7 +182,9 @@ const ProductsPage = () => {
 
               {/* Categories */}
               <div className="mb-6">
-                <h4 className="font-semibold mb-3 text-slate-900">Categories</h4>
+                <h4 className="font-semibold mb-3 text-slate-900">
+                  Categories
+                </h4>
                 <div className="space-y-2">
                   {categories.map((cat) => (
                     <label
@@ -98,7 +199,9 @@ const ProductsPage = () => {
                         onChange={(e) => setSelectedCategory(e.target.value)}
                         className="cursor-pointer accent-teal-500"
                       />
-                      <span className="text-slate-700 font-light">{cat.label}</span>
+                      <span className="text-slate-700 font-light">
+                        {cat.label}
+                      </span>
                     </label>
                   ))}
                 </div>
@@ -106,7 +209,9 @@ const ProductsPage = () => {
 
               {/* Price Range */}
               <div>
-                <h4 className="font-semibold mb-3 text-slate-900">Price Range</h4>
+                <h4 className="font-semibold mb-3 text-slate-900">
+                  Price Range
+                </h4>
                 <div className="flex gap-2 mb-3">
                   <input
                     type="number"
@@ -192,7 +297,11 @@ const ProductsPage = () => {
                   style={{ transitionDelay: `${(index % 3) * 50}ms` }}
                 >
                   <div className="bg-gradient-to-br from-slate-100 to-slate-50 h-48 overflow-hidden hover:scale-110 transition-transform duration-300">
-                    <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                   <div className="p-4">
                     <h3 className="font-semibold text-lg mb-2 text-slate-900">
@@ -207,7 +316,14 @@ const ProductsPage = () => {
                       </span>
                     </div>
                     <div className="flex gap-2">
-                      <button onClick={() => window.location.href = `/product/${product.id}`} className="flex-1 bg-teal-600 hover:bg-teal-700 text-white py-2 rounded-lg font-medium transition-all">View</button>
+                      <button
+                        onClick={() =>
+                          (window.location.href = `/product/${product.id}`)
+                        }
+                        className="flex-1 bg-teal-600 hover:bg-teal-700 text-white py-2 rounded-lg font-medium transition-all"
+                      >
+                        View
+                      </button>
                       <button className="flex-1 bg-gradient-to-r from-teal-600 to-cyan-600 text-white py-2 rounded-lg hover:from-teal-700 hover:to-cyan-700 transition-all duration-300 font-medium hover:shadow-md hover:scale-105">
                         Add to Cart
                       </button>
