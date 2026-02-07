@@ -64,7 +64,7 @@ const Home = () => {
       id: 4,
       name: "Cotton",
       price: 6500,
-      pastPrice: 6200,
+      pastPrice: 6300,
       change: "+4%",
       demand: "High",
       qty: "₹/bale",
