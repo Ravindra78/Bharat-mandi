@@ -71,7 +71,7 @@ const Home = () => {
       imageUrl:
         "https://www.orfonline.org/public/uploads/posts/image/cotton-production.jpg",
       region: "Karnataka",
-      farmer: "Suresh Kumar",
+      farmer: "Suresh LAlu",
     },
   ];
 
